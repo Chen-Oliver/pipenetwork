@@ -8,7 +8,7 @@ int server_handshake(int *from_client){
   *from_client=open(WKP,O_RDONLY);
   printf("[SERVER]Connected to WKP\n");
 
-  char clientmessage[MAX_BUFFER_SIZE];
+  char* clientmessage = (char*) calloc(1, MAX_BUFFER_SIZE);
   read(*from_client,clientmessage,MAX_BUFFER_SIZE);
   printf("[SERVER]Received private FIFO: %s\n",clientmessage);
   remove(WKP);
@@ -23,7 +23,7 @@ int server_handshake(int *from_client){
 }
 int client_handshake(int *to_server){
 
-  char privateFIFO[MAX_BUFFER_SIZE];
+  char* privateFIFO = (char*) calloc(1, MAX_BUFFER_SIZE);
   sprintf(privateFIFO,"%d",getpid());
   mkfifo(privateFIFO,0644);
   printf("[CLIENT]Created private FIFO:%s\n",privateFIFO);
@@ -35,7 +35,7 @@ int client_handshake(int *to_server){
   int from_client = open(privateFIFO,O_RDONLY);
   printf("[CLIENT]Connected to private FIFO\n");
 
-  char server_response[MAX_BUFFER_SIZE];
+  char* server_response = (char*) calloc(1, MAX_BUFFER_SIZE);
   read(from_client,server_response,MAX_BUFFER_SIZE);
   printf("[CLIENT]Received server response:%s\n",server_response);
   remove(privateFIFO);

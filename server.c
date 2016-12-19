@@ -10,6 +10,7 @@ int main() {
   to_client = server_handshake( &from_client );
 
   read( from_client, buffer, sizeof(buffer) );
+  printf("[SERVER] Received message: %s\n", buffer);
   process( buffer );
   write( to_client, buffer, sizeof(buffer));
 
